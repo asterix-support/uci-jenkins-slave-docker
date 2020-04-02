@@ -1,8 +1,8 @@
-FROM centos:7.2.1511
+FROM centos:7
 
 USER root
 
-RUN yum install -y openssh-server openssh-clients unzip git which
+RUN yum install -y openssh-server openssh-clients unzip git which java-1.8.0-openjdk-headless
 
 # Set up for SSH daemon
 RUN sed -ri -e 's/UsePAM yes/#UsePAM yes/g' \
@@ -17,13 +17,6 @@ RUN sed -ri -e 's/UsePAM yes/#UsePAM yes/g' \
 #            -e 's@#HostKey /etc/ssh/ssh_host_dsa_key@HostKey /etc/ssh/ssh_host_dsa_key@g' \
 
 # JDK.
-RUN mkdir /tmp/deploy && \
-    cd /tmp/deploy && \
-    curl -L --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
-        http://download.oracle.com/otn-pub/java/jdk/8u102-b14/jdk-8u102-linux-x64.rpm \
-        -o jdk.rpm && \
-    yum localinstall -y jdk.rpm && \
-    cd /tmp && rm -rf deploy
 ENV JAVA_HOME=/usr/java/latest
 
 # create jenkins user
@@ -49,3 +42,4 @@ USER root
 ENTRYPOINT [ "/usr/sbin/startup.sh" ]
 CMD [ "default" ]
 EXPOSE 22 8000-8003
+
