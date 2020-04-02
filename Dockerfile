@@ -2,7 +2,7 @@ FROM centos:7
 
 USER root
 
-RUN yum install -y openssh-server openssh-clients unzip git which java-1.8.0-openjdk-headless
+RUN yum install -y openssh-server openssh-clients unzip git which java-1.8.0-openjdk-headless python3 python3-pip
 
 # Set up for SSH daemon
 RUN sed -ri -e 's/UsePAM yes/#UsePAM yes/g' \
